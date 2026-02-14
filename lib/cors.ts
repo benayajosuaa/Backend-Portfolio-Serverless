@@ -2,10 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://benaya-frontend.vercel.app",
-  "https://frontendben-r1g3.vercel.app",
-  "https://halo-frontend-dusky.vercel.app",
-  "https://benaya-frontend-r1g3.vercel.app",
+  "https://portfolio-f-fawn.vercel.app/"
   // Tambahkan domain frontend lain jika ada
 ];
 
