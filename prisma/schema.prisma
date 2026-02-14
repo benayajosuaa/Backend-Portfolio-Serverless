@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum roleUser {
+  admin
+  user
+}
+
+enum statusWork {
+  Draft
+  Published
+}
+
+enum typeJourney {
+  Education
+  Work
+  Organization
+}
+
+enum statusContact {
+  Unread
+  Read
+  Replied
+  Archived
+}
+
+model users {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique @db.VarChar(200)
+  password_hash String   @db.VarChar(255)
+  role          roleUser @default(user)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+
+model journeys {
+  id           Int          @id @default(autoincrement())
+  type         typeJourney
+  title        String       @db.VarChar(200)
+  excerpt      String       @db.VarChar(300)
+  cover_image  String
+  year         Int
+  content      String?
+  order_index  Int
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model works {
+  id           Int        @id @default(autoincrement())
+  title        String
+  excerpt      String
+  cover_image  String
+  github_url   String?
+  demo_url     String?
+  drive_url    String?
+  published_at DateTime?
+  status       statusWork
+  order_index  Int
+
+  created_at   DateTime   @default(now())
+  updated_at   DateTime   @updatedAt
+}
+
+
+model contact_messages {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(200)
+  email       String        @db.VarChar(200)
+  phone       String?       @db.VarChar(50)
+  subject     String        @db.VarChar(200)
+  message     String
+  status      statusContact
+  created_at  DateTime @default(now())
+}

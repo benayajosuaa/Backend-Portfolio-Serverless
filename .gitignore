@@ -1,0 +1,16 @@
+node_modules
+# Keep environment variables out of version control
+.env
+.env.local
+
+.vscode
+.vercel
+
+# Old src folder (now using api folder)
+src
+uploads
+dist
+
+# Prisma generated files (regenerated on build)
+# src/generated
+.env*.local

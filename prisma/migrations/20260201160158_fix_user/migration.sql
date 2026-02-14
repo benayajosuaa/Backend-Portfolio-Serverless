@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "role" SET DEFAULT 'user',
+ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;

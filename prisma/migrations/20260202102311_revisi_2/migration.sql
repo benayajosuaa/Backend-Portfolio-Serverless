@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "contact_messages" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "journeys" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "works" ALTER COLUMN "created_at" SET DEFAULT CURRENT_TIMESTAMP;
