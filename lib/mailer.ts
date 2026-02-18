@@ -30,7 +30,7 @@ function emailSignature() {
       <p style="margin:4px 0;"><strong>Informasi</strong></p>
       <p style="margin:3px 0;">
         pribadi/non formal: 
-        <a href="mailto:denaya.josua@gmail.com" style="color:#1a73e8;text-decoration:none;">denaya.josua@gmail.com</a>
+        <a href="mailto:benaya.josua@gmail.com" style="color:#1a73e8;text-decoration:none;">denaya.josua@gmail.com</a>
       </p>
       <p style="margin:3px 0;">
         akademik: 
