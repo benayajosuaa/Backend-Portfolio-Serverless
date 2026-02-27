@@ -8,8 +8,40 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "api/[...catchall].ts"
+      "src": "/api/auth/(?<action>[^/]+)",
+      "dest": "/api/auth/[action].ts"
+    },
+    {
+      "src": "/api/contact/(?<id>[^/]+)/(?<endpoint>[^/]+)",
+      "dest": "/api/contact/[id]/[endpoint].ts"
+    },
+    {
+      "src": "/api/contact/(?<id>[^/]+)",
+      "dest": "/api/contact/[id].ts"
+    },
+    {
+      "src": "/api/contact",
+      "dest": "/api/contact/index.ts"
+    },
+    {
+      "src": "/api/journeys/(?<id>[^/]+)",
+      "dest": "/api/journeys/[id].ts"
+    },
+    {
+      "src": "/api/journeys",
+      "dest": "/api/journeys/index.ts"
+    },
+    {
+      "src": "/api/works/(?<id>[^/]+)",
+      "dest": "/api/works/[id].ts"
+    },
+    {
+      "src": "/api/works",
+      "dest": "/api/works/index.ts"
+    },
+    {
+      "src": "/api/(?<catchall>.*)",
+      "dest": "/api/[...catchall].ts"
     }
   ]
 }
