@@ -124,12 +124,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({
       message: "Internal server error",
       error: error instanceof Error ? error.message : "Unknown error",
-      stack: error instanceof Error ? error.stack : undefined,
-      env: {
-        DATABASE_URL: process.env.DATABASE_URL ? 'set' : 'missing',
-        SUPABASE_URL: process.env.SUPABASE_URL ? 'set' : 'missing',
-        SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'set' : 'missing',
-      }
     });
   }
 }

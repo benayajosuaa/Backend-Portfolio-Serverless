@@ -20,9 +20,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return await login(req, res);
     }
 
-    // if (req.method === "POST" && action === "register") {
-    //   return await register(req, res);
-    // }
+    if (req.method === "POST" && action === "register") {
+      return await register(req, res);
+    }
 
     return res.status(404).json({ message: "not found" });
   } catch (error) {
@@ -53,44 +53,43 @@ async function login(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// ==== Non Aktifkan Register Sementara Waktu ===
-// async function register(req: VercelRequest, res: VercelResponse) {
-//   const { email, password } = req.body;
+async function register(req: VercelRequest, res: VercelResponse) {
+  const { email, password } = req.body;
 
-//   if (!email || !password) {
-//     return res.status(400).json({
-//       message: "email or password are required",
-//     });
-//   }
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "email or password are required",
+    });
+  }
 
-//   if (password.length < 6) {
-//     return res.status(400).json({
-//       message: "password must be at least 6 characters",
-//     });
-//   }
+  if (password.length < 6) {
+    return res.status(400).json({
+      message: "password must be at least 6 characters",
+    });
+  }
 
-//   try {
-//     const user = await AuthServices.register(email, password);
+  try {
+    const user = await AuthServices.register(email, password);
 
-//     return res.status(201).json({
-//       message: "register success",
-//       data: {
-//         id: user.id,
-//         email: user.email,
-//         role: user.role,
-//       },
-//     });
-//   } catch (error: any) {
-//     console.error(error);
+    return res.status(201).json({
+      message: "register success",
+      data: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error: any) {
+    console.error(error);
 
-//     if (error.code === "P2002") {
-//       return res.status(409).json({
-//         message: "email already registered",
-//       });
-//     }
+    if (error.code === "P2002") {
+      return res.status(409).json({
+        message: "email already registered",
+      });
+    }
 
-//     return res.status(400).json({
-//       message: "register failed",
-//     });
-//   }
-// }
+    return res.status(400).json({
+      message: "register failed",
+    });
+  }
+}
