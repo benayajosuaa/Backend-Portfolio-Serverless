@@ -12,6 +12,10 @@
       "dest": "/api/index.ts"
     },
     {
+      "src": "^/api/.*",
+      "dest": "/api/$1"
+    },
+    {
       "handle": "filesystem"
     },
     {
