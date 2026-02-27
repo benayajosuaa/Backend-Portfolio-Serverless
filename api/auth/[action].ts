@@ -20,9 +20,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return await login(req, res);
     }
 
-    if (req.method === "POST" && action === "register") {
-      return await register(req, res);
-    }
+    // if (req.method === "POST" && action === "register") {
+    //   return await register(req, res);
+    // }
 
     return res.status(404).json({ message: "not found" });
   } catch (error) {
