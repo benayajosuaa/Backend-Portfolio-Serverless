@@ -1,7 +1,6 @@
 {
-  "name": "my-app",
+  "name": "backend-serverless",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate dev",
