@@ -9,7 +9,6 @@ export const config = {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Handle CORS and preflight
   if (cors(req, res)) return;
   if (req.method === "OPTIONS") return res.status(200).end();
 
