@@ -8,19 +8,35 @@
   ],
   "routes": [
     {
-      "src": "^/$",
-      "dest": "/api/index.ts"
+      "src": "^/api/works/([^/]+)$",
+      "dest": "/api/works/[id].ts?id=$1"
     },
     {
-      "src": "^/api/(.*)",
-      "dest": "/api/$1"
+      "src": "^/api/journeys/([^/]+)$",
+      "dest": "/api/journeys/[id].ts?id=$1"
+    },
+    {
+      "src": "^/api/contact/([^/]+)/status$",
+      "dest": "/api/contact/[id]/status.ts?id=$1"
+    },
+    {
+      "src": "^/api/contact/([^/]+)/reply$",
+      "dest": "/api/contact/[id]/reply.ts?id=$1"
+    },
+    {
+      "src": "^/api/contact/([^/]+)$",
+      "dest": "/api/contact/[id].ts?id=$1"
+    },
+    {
+      "src": "^/api/auth/([^/]+)$",
+      "dest": "/api/auth/index.ts?action=$1"
     },
     {
       "handle": "filesystem"
     },
     {
-      "src": "/(.*)",
-      "dest": "/api/[...catchall].ts"
+      "src": "^/$",
+      "dest": "/api/index.ts"
     }
   ]
 }
