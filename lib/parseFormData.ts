@@ -33,8 +33,13 @@ export async function parseFormData(req: VercelRequest): Promise<ParsedFormData>
         }
       }
 
-      // Handle file if present
-      const fileField = files.cover_image;
+      // Handle file if present (support multiple field names)
+      const fileField =
+        files.cover_image ||
+        // Common camelCase variant from frontend
+        (files as Record<string, any>).coverImage ||
+        // Fallback to first file if field name differs
+        Object.values(files)[0];
       let fileData: ParsedFormData["file"] = undefined;
 
       if (fileField) {
