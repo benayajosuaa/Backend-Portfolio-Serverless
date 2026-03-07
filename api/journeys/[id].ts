@@ -9,6 +9,7 @@ import {
   extractFilePathFromUrl,
 } from "../../lib/supabase";
 import crypto from "crypto";
+import type { IncomingMessage } from "http";
 
 export const config = {
   api: {
@@ -17,6 +18,27 @@ export const config = {
 };
 
 const BUCKET_NAME = "journeys";
+
+function readJsonBody(req: IncomingMessage): Promise<Record<string, any>> {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk;
+    });
+    req.on("end", () => {
+      if (body.trim() === "") {
+        resolve({});
+        return;
+      }
+      try {
+        resolve(JSON.parse(body));
+      } catch (error) {
+        reject(error);
+      }
+    });
+    req.on("error", reject);
+  });
+}
 
 function normalizeCoverImage(coverImage: string): string {
   if (!coverImage) return coverImage;
@@ -77,17 +99,55 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(404).json({ message: "Journey not found" });
       }
 
-      const { fields, file } = await parseFormData(req);
+      const contentType = String(req.headers["content-type"] || "");
+      let fields: Record<string, any> = {};
+      let file: {
+        buffer: Buffer;
+        filename: string;
+        mimetype: string;
+      } | undefined;
+
+      if (contentType.includes("multipart/form-data")) {
+        const parsed = await parseFormData(req);
+        fields = parsed.fields;
+        file = parsed.file;
+      } else {
+        try {
+          fields = await readJsonBody(req as unknown as IncomingMessage);
+        } catch {
+          return res.status(400).json({ message: "Invalid JSON body" });
+        }
+      }
+
+      if (Object.keys(fields).length === 0 && !file) {
+        return res.status(400).json({ message: "No data to update" });
+      }
 
       const data: any = {
-        title: fields.title || existing.title,
-        type: fields.type || existing.type,
-        excerpt: fields.excerpt || existing.excerpt,
-        content: fields.content ?? existing.content,
-        year: fields.year ? Number(fields.year) : existing.year,
-        order_index: fields.order_index
-          ? Number(fields.order_index)
-          : existing.order_index,
+        title:
+          typeof fields.title === "string" && fields.title !== ""
+            ? fields.title
+            : existing.title,
+        type:
+          typeof fields.type === "string" && fields.type !== ""
+            ? fields.type
+            : existing.type,
+        excerpt:
+          typeof fields.excerpt === "string" && fields.excerpt !== ""
+            ? fields.excerpt
+            : existing.excerpt,
+        content:
+          typeof fields.content !== "undefined"
+            ? String(fields.content)
+            : existing.content,
+        year:
+          typeof fields.year !== "undefined" && fields.year !== ""
+            ? Number(fields.year)
+            : existing.year,
+        order_index:
+          typeof fields.order_index !== "undefined" && fields.order_index !== ""
+            ? Number(fields.order_index)
+            : existing.order_index,
       };
 
       // Handle new image upload
