@@ -150,6 +150,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             : existing.order_index,
       };
 
+      if (data.type && !["Education", "Work", "Organization"].includes(data.type)) {
+        return res.status(400).json({
+          message: "Invalid type. Must be Education, Work, or Organization",
+        });
+      }
+
+      if (typeof data.year === "number" && Number.isNaN(data.year)) {
+        return res.status(400).json({ message: "year must be a number" });
+      }
+
+      if (typeof data.order_index === "number" && Number.isNaN(data.order_index)) {
+        return res.status(400).json({ message: "order_index must be a number" });
+      }
+
       // Handle new image upload
       if (file) {
         // Delete old image from Supabase Storage
